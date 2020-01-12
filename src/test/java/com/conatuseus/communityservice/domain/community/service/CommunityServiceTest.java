@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest(classes = CommunityService.class)
@@ -52,5 +54,28 @@ class CommunityServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.getName()).isEqualTo(requestDto.getName());
         assertThat(response.getSearchUrl()).isEqualTo(requestDto.getSearchUrl());
+    }
+
+    @Test
+    void findById() {
+        //given
+        Long communityId = 1L;
+        Community community = Community.builder()
+            .name("okky")
+            .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
+            .keyword("성남")
+            .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
+            .attributeKey("href")
+            .build();
+
+        given(communityRepository.findById(anyLong())).willReturn(of(community));
+
+        //when
+        CommunityResponse response = communityService.findById(communityId);
+
+        //then
+        assertThat(response).isNotNull();
+        assertThat(response.getName()).isEqualTo(community.getName());
+        assertThat(response.getKeyword()).isEqualTo(community.getKeyword());
     }
 }

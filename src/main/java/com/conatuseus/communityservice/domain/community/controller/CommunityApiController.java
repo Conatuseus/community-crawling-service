@@ -5,6 +5,8 @@ import com.conatuseus.communityservice.domain.community.service.dto.CommunityRes
 import com.conatuseus.communityservice.domain.community.service.dto.CommunitySaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,13 @@ public class CommunityApiController {
     public ResponseEntity save(@RequestBody final CommunitySaveRequestDto requestDto) {
         CommunityResponse response = communityService.save(requestDto);
 
-        return ResponseEntity.created(URI.create("/" + response.getId())).build();
+        return ResponseEntity.created(URI.create(V1_COMMUNITY + "/" + response.getId())).build();
+    }
+
+    @GetMapping("/{communityId}")
+    public ResponseEntity<CommunityResponse> findById(@PathVariable final Long communityId) {
+        CommunityResponse response = communityService.findById(communityId);
+
+        return ResponseEntity.ok(response);
     }
 }
