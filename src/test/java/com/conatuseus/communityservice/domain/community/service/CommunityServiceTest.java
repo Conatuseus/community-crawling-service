@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -110,5 +111,24 @@ class CommunityServiceTest {
         assertThat(updatedResponse).isNotNull();
         assertThat(updatedResponse.getName()).isEqualTo("updatedName");
         assertThat(updatedResponse.getKeyword()).isEqualTo("updatedKeyword");
+    }
+
+    @Test
+    void deleteById() {
+        //given
+        Long communityId = 1L;
+
+        Community community = Community.builder()
+            .name("okky")
+            .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
+            .keyword("성남")
+            .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
+            .attributeKey("href")
+            .build();
+
+        given(communityRepository.findById(anyLong())).willReturn(ofNullable(community));
+
+        //when&then
+        assertDoesNotThrow(() -> communityService.deleteById(1L));
     }
 }
