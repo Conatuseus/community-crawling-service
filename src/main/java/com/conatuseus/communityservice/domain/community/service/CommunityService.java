@@ -4,6 +4,7 @@ import com.conatuseus.communityservice.domain.community.domain.Community;
 import com.conatuseus.communityservice.domain.community.domain.CommunityRepository;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityResponse;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunitySaveRequestDto;
+import com.conatuseus.communityservice.domain.community.service.dto.CommunityUpdateRequestDto;
 import com.conatuseus.communityservice.domain.community.service.exception.CommunityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,12 @@ public class CommunityService {
             .orElseThrow(() -> new CommunityNotFoundException(communityId));
 
         return new CommunityResponse(community);
+    }
+
+    public CommunityResponse update(final Long communityId, final CommunityUpdateRequestDto requestDto) {
+        Community community = communityRepository.findById(communityId)
+            .orElseThrow(() -> new CommunityNotFoundException(communityId));
+
+        return new CommunityResponse(community.update(requestDto));
     }
 }
