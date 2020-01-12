@@ -64,4 +64,22 @@ class PostsRepositoryTest {
         assertThat(foundPosts.getTitle()).isEqualTo(posts.getTitle());
         assertThat(foundPosts.getLink()).isEqualTo(posts.getLink());
     }
+
+    @Test
+    public void delete() {
+        //given
+        Posts posts = postsRepository.save(Posts.builder()
+            .title("title")
+            .link("link")
+            .community("okky")
+            .keyword("성남")
+            .build());
+
+        //when
+        postsRepository.delete(posts);
+        List<Posts> postsList = postsRepository.findAll();
+
+        //then
+        assertThat(postsList.contains(posts)).isFalse();
+    }
 }

@@ -35,4 +35,11 @@ public class PostsService {
 
         return new PostsResponse(posts.update(requestDto));
     }
+
+    public void deleteById(final Long id) {
+        Posts posts = postsRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 글은 존재하지 않습니다."));
+
+        postsRepository.delete(posts);
+    }
 }

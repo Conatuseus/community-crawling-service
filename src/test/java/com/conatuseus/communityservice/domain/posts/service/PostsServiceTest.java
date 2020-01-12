@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -64,7 +65,6 @@ class PostsServiceTest {
         assertThat(postsResponse.getLink()).isEqualTo(expected.getLink());
     }
 
-
     @Test
     void update_posts() {
         //given
@@ -86,5 +86,20 @@ class PostsServiceTest {
         assertThat(postsResponse).isNotNull();
         assertThat(postsResponse.getTitle()).isEqualTo(requestDto.getTitle());
         assertThat(postsResponse.getLink()).isEqualTo(requestDto.getLink());
+    }
+
+    @Test
+    void delete_posts() {
+        //given
+        Posts deletePosts = Posts.builder()
+            .title("testTitle")
+            .link("testLink")
+            .community("okky")
+            .keyword("성남")
+            .build();
+        given(postsRepository.findById(anyLong())).willReturn(ofNullable(deletePosts));
+
+        //when&then
+        assertDoesNotThrow(() -> postsService.deleteById(1L));
     }
 }

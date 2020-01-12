@@ -71,6 +71,21 @@ public class PostsApiControllerTest {
             .jsonPath("$.link").isEqualTo(updateRequestDto.getLink());
     }
 
+    @Test
+    void deleteById() {
+        //given
+        PostsSaveRequestDto saveRequestDto = new PostsSaveRequestDto("title", "link", "okky", "성남");
+        EntityExchangeResult<byte[]> entityExchangeResult = save(saveRequestDto)
+            .expectHeader().valueMatches("Location", PostsApiController.V1_POSTS + "/\\d*")
+            .expectBody().returnResult();
+
+        //when&then
+        webTestClient.delete()
+            .uri(entityExchangeResult.getResponseHeaders().getLocation().toASCIIString())
+            .exchange()
+            .expectStatus().isNoContent();
+    }
+
     private WebTestClient.ResponseSpec save(final PostsSaveRequestDto requestDto) {
         return webTestClient.post()
             .uri(baseUrl)
