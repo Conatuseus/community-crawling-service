@@ -1,5 +1,6 @@
 package com.conatuseus.communityservice.domain.posts.domain;
 
+import com.conatuseus.communityservice.domain.posts.service.dto.PostsUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,11 @@ public class Posts {
         this.link = link;
         this.community = community;
         this.keyword = keyword;
+    }
+
+    public Posts update(final PostsUpdateRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.link = requestDto.getLink();
+        return this;
     }
 }

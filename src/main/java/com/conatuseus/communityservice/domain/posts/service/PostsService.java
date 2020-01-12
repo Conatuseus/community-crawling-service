@@ -4,6 +4,7 @@ import com.conatuseus.communityservice.domain.posts.domain.Posts;
 import com.conatuseus.communityservice.domain.posts.domain.PostsRepository;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsResponse;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequestDto;
+import com.conatuseus.communityservice.domain.posts.service.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +27,12 @@ public class PostsService {
             .orElseThrow(() -> new IllegalArgumentException("해당 글은 존재하지 않습니다."));
 
         return new PostsResponse(posts);
+    }
+
+    public PostsResponse update(final Long id, final PostsUpdateRequestDto requestDto) {
+        Posts posts = postsRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 글은 존재하지 않습니다."));
+
+        return new PostsResponse(posts.update(requestDto));
     }
 }
