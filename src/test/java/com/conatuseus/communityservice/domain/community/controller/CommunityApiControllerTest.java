@@ -81,6 +81,21 @@ class CommunityApiControllerTest {
             .jsonPath("$.cssQuery").isEqualTo("updatedCssQuery");
     }
 
+    @Test
+    public void deleteById() {
+        //given
+        EntityExchangeResult<byte[]> exchangeResult = save(requestDto)
+            .expectHeader().valueMatches("Location", CommunityApiController.V1_COMMUNITY + "/\\d*")
+            .expectBody().returnResult();
+
+        //when&then
+        webTestClient.delete()
+            .uri(exchangeResult.getResponseHeaders().getLocation().toASCIIString())
+            .exchange()
+            .expectStatus().isNoContent();
+
+    }
+
     private WebTestClient.ResponseSpec save(final CommunitySaveRequestDto requestDto) {
         return webTestClient.post()
             .uri(baseUrl)
