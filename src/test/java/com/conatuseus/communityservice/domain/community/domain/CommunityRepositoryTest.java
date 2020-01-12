@@ -47,4 +47,32 @@ class CommunityRepositoryTest {
         assertThat(savedCommunity.getSearchUrl()).isEqualTo(searchUrl);
         assertThat(savedCommunity.getKeyword()).isEqualTo(keyword);
     }
+
+    @Test
+    public void findById() {
+        //given
+        String name = "okky";
+        String searchUrl = "https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc";
+        String keyword = "성남";
+        String cssQuery = "h5.list-group-item-heading.list-group-item-evaluate > a";
+        String attributeKey = "href";
+
+        Community community = communityRepository.save(Community.builder()
+            .name(name)
+            .searchUrl(searchUrl)
+            .keyword(keyword)
+            .cssQuery(cssQuery)
+            .attributeKey(attributeKey)
+            .build());
+
+        //when
+        Community found = communityRepository.findById(community.getId())
+            .orElse(null);
+
+        //then
+        assertThat(found).isNotNull();
+        assertThat(found.getName()).isEqualTo(name);
+        assertThat(found.getKeyword()).isEqualTo(keyword);
+        assertThat(found.getCssQuery()).isEqualTo(cssQuery);
+    }
 }
