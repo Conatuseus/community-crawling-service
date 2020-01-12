@@ -6,6 +6,7 @@ import com.conatuseus.communityservice.domain.community.service.dto.CommunitySav
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,9 +42,16 @@ public class CommunityApiController {
     }
 
     @PutMapping("/{communityId}")
-    public ResponseEntity<CommunityResponse> update(@PathVariable final Long communityId, @RequestBody CommunityUpdateRequestDto requestDto) {
+    public ResponseEntity<CommunityResponse> update(@PathVariable final Long communityId, @RequestBody final CommunityUpdateRequestDto requestDto) {
         CommunityResponse response = communityService.update(communityId, requestDto);
 
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{communityId}")
+    public ResponseEntity deleteById(@PathVariable final Long communityId) {
+        communityService.deleteById(communityId);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -37,4 +37,11 @@ public class CommunityService {
 
         return new CommunityResponse(community.update(requestDto));
     }
+
+    public void deleteById(final Long communityId) {
+        Community community = communityRepository.findById(communityId)
+            .orElseThrow(() -> new CommunityNotFoundException(communityId));
+
+        communityRepository.delete(community);
+    }
 }

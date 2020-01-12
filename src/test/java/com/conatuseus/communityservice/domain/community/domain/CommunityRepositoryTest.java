@@ -109,4 +109,29 @@ class CommunityRepositoryTest {
         assertThat(community.getKeyword()).isEqualTo("updatedKeyword");
         assertThat(community.getCssQuery()).isEqualTo("updatedCssQuery");
     }
+
+    @Test
+    public void delete() {
+        //given
+        String name = "okky";
+        String searchUrl = "https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc";
+        String keyword = "성남";
+        String cssQuery = "h5.list-group-item-heading.list-group-item-evaluate > a";
+        String attributeKey = "href";
+
+        Community community = communityRepository.save(Community.builder()
+            .name(name)
+            .searchUrl(searchUrl)
+            .keyword(keyword)
+            .cssQuery(cssQuery)
+            .attributeKey(attributeKey)
+            .build());
+
+        //when
+        communityRepository.delete(community);
+        List<Community> communities = communityRepository.findAll();
+
+        //then
+        assertThat(communities.contains(community)).isFalse();
+    }
 }
