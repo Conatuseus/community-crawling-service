@@ -4,6 +4,7 @@ import com.conatuseus.communityservice.domain.posts.domain.Posts;
 import com.conatuseus.communityservice.domain.posts.domain.PostsRepository;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsResponse;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequestDto;
+import com.conatuseus.communityservice.domain.posts.service.dto.PostsUpdateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -61,5 +62,29 @@ class PostsServiceTest {
         assertThat(postsResponse).isNotNull();
         assertThat(postsResponse.getTitle()).isEqualTo(expected.getTitle());
         assertThat(postsResponse.getLink()).isEqualTo(expected.getLink());
+    }
+
+
+    @Test
+    void update_posts() {
+        //given
+        Posts posts = Posts.builder()
+            .title("testTitle")
+            .link("testLink")
+            .community("okky")
+            .keyword("성남")
+            .build();
+
+        PostsUpdateRequestDto requestDto = new PostsUpdateRequestDto("updatedTitle", "updatedLink");
+
+        given(postsRepository.findById(anyLong())).willReturn(ofNullable(posts));
+
+        //when
+        PostsResponse postsResponse = postsService.update(1L, requestDto);
+
+        //then
+        assertThat(postsResponse).isNotNull();
+        assertThat(postsResponse.getTitle()).isEqualTo(requestDto.getTitle());
+        assertThat(postsResponse.getLink()).isEqualTo(requestDto.getLink());
     }
 }

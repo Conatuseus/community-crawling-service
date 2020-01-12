@@ -1,6 +1,7 @@
 package com.conatuseus.communityservice.domain.posts.controller;
 
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequestDto;
+import com.conatuseus.communityservice.domain.posts.service.dto.PostsUpdateRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -48,6 +49,27 @@ public class PostsApiControllerTest {
             .jsonPath("$.community").isEqualTo(requestDto.getCommunity());
     }
 
+    @Test
+    void update() {
+        //given
+        PostsSaveRequestDto saveRequestDto = new PostsSaveRequestDto("title", "link", "okky", "성남");
+        EntityExchangeResult<byte[]> entityExchangeResult = save(saveRequestDto)
+            .expectHeader().valueMatches("Location", PostsApiController.V1_POSTS + "/\\d*")
+            .expectBody().returnResult();
+
+        PostsUpdateRequestDto updateRequestDto = new PostsUpdateRequestDto("updatedTitle", "updatedLink");
+
+        //when&then
+        webTestClient.put()
+            .uri(entityExchangeResult.getResponseHeaders().getLocation().toASCIIString())
+            .body(Mono.just(updateRequestDto), PostsUpdateRequestDto.class)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.id").isNotEmpty()
+            .jsonPath("$.title").isEqualTo(updateRequestDto.getTitle())
+            .jsonPath("$.link").isEqualTo(updateRequestDto.getLink());
+    }
 
     private WebTestClient.ResponseSpec save(final PostsSaveRequestDto requestDto) {
         return webTestClient.post()
