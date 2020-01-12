@@ -5,6 +5,8 @@ import com.conatuseus.communityservice.domain.posts.service.dto.PostsResponse;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,5 +30,12 @@ public class PostsApiController {
 
         return ResponseEntity.created(URI.create(V1_POSTS + "/" + response.getId()))
             .build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostsResponse> findById(@PathVariable final Long id) {
+        PostsResponse response = postsService.findById(id);
+
+        return ResponseEntity.ok(response);
     }
 }

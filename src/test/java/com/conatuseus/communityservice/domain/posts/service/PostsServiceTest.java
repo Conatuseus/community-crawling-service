@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest(classes = PostsService.class)
@@ -39,5 +41,25 @@ class PostsServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.getTitle()).isEqualTo(requestDto.getTitle());
         assertThat(response.getLink()).isEqualTo(requestDto.getLink());
+    }
+
+    @Test
+    void find_by_id_posts() {
+        //given
+        Posts expected = Posts.builder()
+            .title("testTitle")
+            .link("testLink")
+            .community("okky")
+            .keyword("성남")
+            .build();
+        given(postsRepository.findById(anyLong())).willReturn(ofNullable(expected));
+
+        //when
+        PostsResponse postsResponse = postsService.findById(1L);
+
+        //then
+        assertThat(postsResponse).isNotNull();
+        assertThat(postsResponse.getTitle()).isEqualTo(expected.getTitle());
+        assertThat(postsResponse.getLink()).isEqualTo(expected.getLink());
     }
 }

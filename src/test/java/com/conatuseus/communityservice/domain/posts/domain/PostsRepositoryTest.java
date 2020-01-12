@@ -44,4 +44,24 @@ class PostsRepositoryTest {
         assertThat(savedPosts.getTitle()).isEqualTo(title);
         assertThat(savedPosts.getLink()).isEqualTo(link);
     }
+
+    @Test
+    public void findById() {
+        //given
+        Posts posts = postsRepository.save(Posts.builder()
+            .title("title")
+            .link("link")
+            .community("okky")
+            .keyword("성남")
+            .build());
+
+        //when
+        Posts foundPosts = postsRepository.findById(posts.getId())
+            .orElse(null);
+
+        //then
+        assertThat(foundPosts).isNotNull();
+        assertThat(foundPosts.getTitle()).isEqualTo(posts.getTitle());
+        assertThat(foundPosts.getLink()).isEqualTo(posts.getLink());
+    }
 }
