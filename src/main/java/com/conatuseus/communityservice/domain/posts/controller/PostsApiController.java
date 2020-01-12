@@ -6,6 +6,7 @@ import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequest
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,5 +47,11 @@ public class PostsApiController {
         PostsResponse response = postsService.update(id, requestDto);
 
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable final Long id) {
+        postsService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
