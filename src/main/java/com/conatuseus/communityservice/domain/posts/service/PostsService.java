@@ -19,4 +19,12 @@ public class PostsService {
         Posts posts = postsRepository.save(requestDto.toEntity());
         return new PostsResponse(posts);
     }
+
+    @Transactional(readOnly = true)
+    public PostsResponse findById(final Long id) {
+        Posts posts = postsRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 글은 존재하지 않습니다."));
+
+        return new PostsResponse(posts);
+    }
 }
