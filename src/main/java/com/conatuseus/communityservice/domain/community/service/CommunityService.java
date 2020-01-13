@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -43,5 +45,10 @@ public class CommunityService {
             .orElseThrow(() -> new CommunityNotFoundException(communityId));
 
         communityRepository.delete(community);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Community> findAll() {
+        return communityRepository.findAll();
     }
 }
