@@ -102,4 +102,13 @@ class PostsServiceTest {
         //when&then
         assertDoesNotThrow(() -> postsService.deleteById(1L));
     }
+
+    @Test
+    void exists_by_link() {
+        //given
+        given(postsRepository.existsByLink(any())).willReturn(true);
+
+        //when&then
+        assertThat(postsService.existsByLink("testLink")).isTrue();
+    }
 }

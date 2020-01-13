@@ -1,6 +1,7 @@
 package com.conatuseus.communityservice.domain.posts.domain;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -81,5 +82,43 @@ class PostsRepositoryTest {
 
         //then
         assertThat(postsList.contains(posts)).isFalse();
+    }
+
+    @Test
+    @DisplayName("link가 존재하는 경우")
+    public void exists_by_link() {
+        //given
+        Posts posts = postsRepository.save(Posts.builder()
+            .title("title")
+            .link("link")
+            .community("okky")
+            .keyword("성남")
+            .build());
+        postsRepository.save(posts);
+
+        //when
+        boolean existsByLink = postsRepository.existsByLink("link");
+
+        //then
+        assertThat(existsByLink).isTrue();
+    }
+
+    @Test
+    @DisplayName("link가 존재하지 않는 경우")
+    public void not_exists_by_link() {
+        //given
+        Posts posts = postsRepository.save(Posts.builder()
+            .title("title")
+            .link("link")
+            .community("okky")
+            .keyword("성남")
+            .build());
+        postsRepository.save(posts);
+
+        //when
+        boolean existsByLink = postsRepository.existsByLink("testLink");
+
+        //then
+        assertThat(existsByLink).isFalse();
     }
 }

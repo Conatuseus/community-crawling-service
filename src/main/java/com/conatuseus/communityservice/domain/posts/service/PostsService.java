@@ -42,4 +42,9 @@ public class PostsService {
 
         postsRepository.delete(posts);
     }
+
+    @Transactional(readOnly = true)
+    public boolean existsByLink(final String link) {
+        return postsRepository.existsByLink(link);
+    }
 }
