@@ -7,6 +7,7 @@ import com.conatuseus.communityservice.domain.crawler.service.exception.InvalidT
 import com.conatuseus.communityservice.domain.posts.service.PostsService;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class CrawlerService {
     private final CommunityService communityService;
     private final PostsService postsService;
 
+    @Scheduled(fixedDelay = 1800000, initialDelay = 1000)
     @Transactional
     public void crawling() throws IOException {
         List<Community> communities = communityService.findAll();
