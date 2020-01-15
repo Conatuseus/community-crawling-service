@@ -1,4 +1,4 @@
-package com.conatuseus.communityservice.domain.config;
+package com.conatuseus.communityservice.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
