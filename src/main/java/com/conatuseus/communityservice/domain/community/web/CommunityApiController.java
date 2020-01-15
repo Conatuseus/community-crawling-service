@@ -1,4 +1,4 @@
-package com.conatuseus.communityservice.domain.community.controller;
+package com.conatuseus.communityservice.domain.community.web;
 
 import com.conatuseus.communityservice.domain.community.service.CommunityService;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
-import static com.conatuseus.communityservice.domain.community.controller.CommunityApiController.V1_COMMUNITY;
+import static com.conatuseus.communityservice.domain.community.web.CommunityApiController.V1_COMMUNITY;
 
 @RequiredArgsConstructor
 @RequestMapping(V1_COMMUNITY)

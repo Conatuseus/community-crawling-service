@@ -1,4 +1,4 @@
-package com.conatuseus.communityservice.domain.posts.controller;
+package com.conatuseus.communityservice.domain.posts.web;
 
 import com.conatuseus.communityservice.domain.posts.service.PostsService;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
-import static com.conatuseus.communityservice.domain.posts.controller.PostsApiController.V1_POSTS;
+import static com.conatuseus.communityservice.domain.posts.web.PostsApiController.V1_POSTS;
 
 @RequiredArgsConstructor
 @RequestMapping(V1_POSTS)
