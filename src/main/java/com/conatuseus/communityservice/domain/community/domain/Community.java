@@ -1,5 +1,6 @@
 package com.conatuseus.communityservice.domain.community.domain;
 
+import com.conatuseus.communityservice.domain.base.domain.BaseTimeEntity;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Community {
+public class Community extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

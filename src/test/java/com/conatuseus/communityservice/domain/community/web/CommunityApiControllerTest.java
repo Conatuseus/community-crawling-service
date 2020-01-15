@@ -1,4 +1,4 @@
-package com.conatuseus.communityservice.domain.community.controller;
+package com.conatuseus.communityservice.domain.community.web;
 
 import com.conatuseus.communityservice.domain.community.service.dto.CommunitySaveRequestDto;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityUpdateRequestDto;
