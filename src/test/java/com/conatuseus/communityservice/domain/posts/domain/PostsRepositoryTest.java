@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -120,5 +121,26 @@ class PostsRepositoryTest {
 
         //then
         assertThat(existsByLink).isFalse();
+    }
+
+    @Test
+    @DisplayName("JpaAuditing 동작하는지 검사")
+    public void baseEntity() {
+        //given
+        LocalDateTime now = LocalDateTime.now();
+        postsRepository.save(Posts.builder()
+            .title("title")
+            .link("link")
+            .community("okky")
+            .keyword("성남")
+            .build());
+
+        //when
+        List<Posts> postsList = postsRepository.findAll();
+
+        //then
+        Posts posts = postsList.get(0);
+        assertThat(posts.getCreatedDate()).isAfter(now);
+        assertThat(posts.getModifiedDate()).isAfter(now);
     }
 }
