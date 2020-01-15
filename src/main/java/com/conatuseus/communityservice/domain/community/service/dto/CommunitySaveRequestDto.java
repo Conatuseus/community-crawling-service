@@ -3,8 +3,10 @@ package com.conatuseus.communityservice.domain.community.service.dto;
 import com.conatuseus.communityservice.domain.community.domain.Community;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CommunitySaveRequestDto {
 
     private String name;
