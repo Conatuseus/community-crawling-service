@@ -36,6 +36,7 @@ class CommunityServiceTest {
         //given
         CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
             .name("okky")
+            .baseUrl("https://okky.kr")
             .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
             .keyword("성남")
             .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
@@ -44,6 +45,7 @@ class CommunityServiceTest {
 
         given(communityRepository.save(any())).willReturn(Community.builder()
             .name("okky")
+            .baseUrl("https://okky.kr")
             .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
             .keyword("성남")
             .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
@@ -65,6 +67,7 @@ class CommunityServiceTest {
         Long communityId = 1L;
         Community community = Community.builder()
             .name("okky")
+            .baseUrl("https://okky.kr")
             .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
             .keyword("성남")
             .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
@@ -87,6 +90,7 @@ class CommunityServiceTest {
         //given
         Community community = Community.builder()
             .name("okky")
+            .baseUrl("https://okky.kr")
             .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
             .keyword("성남")
             .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
@@ -120,6 +124,7 @@ class CommunityServiceTest {
 
         Community community = Community.builder()
             .name("okky")
+            .baseUrl("https://okky.kr")
             .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
             .keyword("성남")
             .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
