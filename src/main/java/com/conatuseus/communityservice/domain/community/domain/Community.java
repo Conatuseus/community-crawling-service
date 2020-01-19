@@ -22,6 +22,8 @@ public class Community extends BaseTimeEntity {
 
     private String name;
 
+    private String baseUrl;
+
     private String searchUrl;
 
     private String keyword;
@@ -31,8 +33,9 @@ public class Community extends BaseTimeEntity {
     private String attributeKey;
 
     @Builder
-    public Community(final String name, final String searchUrl, final String keyword, final String cssQuery, final String attributeKey) {
+    public Community(final String name, final String baseUrl, final String searchUrl, final String keyword, final String cssQuery, final String attributeKey) {
         this.name = name;
+        this.baseUrl = baseUrl;
         this.searchUrl = searchUrl;
         this.keyword = keyword;
         this.cssQuery = cssQuery;
@@ -41,6 +44,7 @@ public class Community extends BaseTimeEntity {
 
     public Community update(final CommunityUpdateRequestDto requestDto) {
         this.name = requestDto.getName();
+        this.baseUrl = requestDto.getBaseUrl();
         this.searchUrl = requestDto.getSearchUrl();
         this.keyword = requestDto.getKeyword();
         this.cssQuery = requestDto.getCssQuery();
