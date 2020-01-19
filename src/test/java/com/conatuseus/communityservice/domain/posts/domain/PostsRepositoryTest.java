@@ -1,6 +1,9 @@
 package com.conatuseus.communityservice.domain.posts.domain;
 
+import com.conatuseus.communityservice.domain.community.domain.Community;
+import com.conatuseus.communityservice.domain.community.domain.CommunityRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,16 @@ class PostsRepositoryTest {
     @Autowired
     PostsRepository postsRepository;
 
+    @Autowired
+    CommunityRepository communityRepository;
+
+    private Community community;
+
+    @BeforeEach
+    public void setUp() {
+        community = communityRepository.findById(987654321L).get();
+    }
+
     @AfterEach
     public void cleanUp() {
         postsRepository.deleteAll();
@@ -27,7 +40,6 @@ class PostsRepositoryTest {
         //given
         String title = "title";
         String link = "link";
-        String community = "okky";
         String keyword = "성남";
 
         Posts posts = Posts.builder()
@@ -53,7 +65,7 @@ class PostsRepositoryTest {
         Posts posts = postsRepository.save(Posts.builder()
             .title("title")
             .link("link")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build());
 
@@ -73,7 +85,7 @@ class PostsRepositoryTest {
         Posts posts = postsRepository.save(Posts.builder()
             .title("title")
             .link("link")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build());
 
@@ -92,7 +104,7 @@ class PostsRepositoryTest {
         Posts posts = postsRepository.save(Posts.builder()
             .title("title")
             .link("link")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build());
         postsRepository.save(posts);
@@ -111,7 +123,7 @@ class PostsRepositoryTest {
         Posts posts = postsRepository.save(Posts.builder()
             .title("title")
             .link("link")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build());
         postsRepository.save(posts);
@@ -131,7 +143,7 @@ class PostsRepositoryTest {
         postsRepository.save(Posts.builder()
             .title("title")
             .link("link")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build());
 
