@@ -2,27 +2,26 @@
 {{>layout/topnavbar}}
 <div class="row">
     {{>layout/sidebar}}
-    <div class="col-md-10" style="display: flex; justify-content: center; align-items: center; height: calc(100vh - 65px);">
-        {{#posts}}
-            <table class="table table-horizontal table-bordered">
-                <thead class="thead-strong">
+    <div class="col-md-10"
+         style="display: flex; justify-content: center; align-items: center; height: calc(100vh - 65px);">
+        <table class="table table-horizontal table-bordered">
+            <thead class="thead-strong">
+            <tr>
+                <th>게시글 번호</th>
+                <th>제목</th>
+                <th>최종 수정일</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            {{#posts}}
                 <tr>
-                    <th>게시글 번호</th>
-                    <th>제목</th>
-                    <th>최종 수정일</th>
+                    <td>{{id}}</td>
+                    <td><a href="{{link}}">{{title}}</a></td>
+                    <td>{{modifiedDate}}</td>
                 </tr>
-                </thead>
-                <tbody id="tbody">
-                {{#posts}}
-                    <tr>
-                        <td>{{id}}</td>
-                        <td><a href="{{link}}">{{title}}</a></td>
-                        <td>{{modifiedDate}}</td>
-                    </tr>
-                {{/posts}}
-                </tbody>
-            </table>
-        {{/posts}}
+            {{/posts}}
+            </tbody>
+        </table>
     </div>
 </div>
 {{>layout/footer}}
