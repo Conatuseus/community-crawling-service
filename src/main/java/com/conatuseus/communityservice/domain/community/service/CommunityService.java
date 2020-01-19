@@ -5,6 +5,7 @@ import com.conatuseus.communityservice.domain.community.domain.CommunityReposito
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityResponse;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunitySaveRequestDto;
 import com.conatuseus.communityservice.domain.community.service.dto.CommunityUpdateRequestDto;
+import com.conatuseus.communityservice.domain.community.service.exception.CommunityNotFoundByName;
 import com.conatuseus.communityservice.domain.community.service.exception.CommunityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,10 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public List<Community> findAll() {
         return communityRepository.findAll();
+    }
+
+    public Community findByName(final String name) {
+        return communityRepository.findByName(name)
+            .orElseThrow(() -> new CommunityNotFoundByName(name));
     }
 }
