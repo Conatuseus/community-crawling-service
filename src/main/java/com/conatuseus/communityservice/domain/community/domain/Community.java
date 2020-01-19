@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,12 +15,14 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Community extends BaseTimeEntity {
+public class Community {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COMMUNITY_ID")
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private String baseUrl;

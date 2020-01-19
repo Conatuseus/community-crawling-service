@@ -10,6 +10,7 @@ import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CommunityApiControllerTest {
@@ -18,18 +19,19 @@ class CommunityApiControllerTest {
     private WebTestClient webTestClient;
 
     private String baseUrl = "/api/v1/communities";
-    private CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
-        .name("okky")
-        .baseUrl("https://okky.kr")
-        .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
-        .keyword("성남")
-        .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
-        .attributeKey("href")
-        .build();
 
     @Test
     public void save() {
         //when & then
+        CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
+            .name("testName1")
+            .baseUrl("testUrl")
+            .searchUrl("testSearchUrl")
+            .keyword("testKeyword")
+            .cssQuery("testCssQuery")
+            .attributeKey("testAttributeKey")
+            .build();
+
         save(requestDto)
             .expectStatus().isCreated();
     }
@@ -37,6 +39,15 @@ class CommunityApiControllerTest {
     @Test
     public void findById() {
         //given
+        CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
+            .name("testName2")
+            .baseUrl("testUrl")
+            .searchUrl("testSearchUrl")
+            .keyword("testKeyword")
+            .cssQuery("testCssQuery")
+            .attributeKey("testAttributeKey")
+            .build();
+
         EntityExchangeResult<byte[]> exchangeResult = save(requestDto)
             .expectHeader().valueMatches("Location", CommunityApiController.V1_COMMUNITY + "/\\d*")
             .expectBody().returnResult();
@@ -49,19 +60,28 @@ class CommunityApiControllerTest {
             .expectStatus().isOk()
             .expectBody()
             .jsonPath("$.id").isNotEmpty()
-            .jsonPath("$.name").isEqualTo("okky")
-            .jsonPath("$.keyword").isEqualTo("성남")
-            .jsonPath("$.attributeKey").isEqualTo("href");
+            .jsonPath("$.name").isEqualTo("testName2")
+            .jsonPath("$.keyword").isEqualTo("testKeyword")
+            .jsonPath("$.attributeKey").isEqualTo("testAttributeKey");
     }
 
     @Test
     public void update() {
         //given
+        CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
+            .name("testName3")
+            .baseUrl("testUrl")
+            .searchUrl("testSearchUrl")
+            .keyword("testKeyword")
+            .cssQuery("testCssQuery")
+            .attributeKey("testAttributeKey")
+            .build();
+
         EntityExchangeResult<byte[]> exchangeResult = save(requestDto)
             .expectHeader().valueMatches("Location", CommunityApiController.V1_COMMUNITY + "/\\d*")
             .expectBody().returnResult();
 
-        CommunityUpdateRequestDto requestDto = CommunityUpdateRequestDto.builder()
+        CommunityUpdateRequestDto updateRequestDto = CommunityUpdateRequestDto.builder()
             .name("updatedName")
             .baseUrl("updatedBaseUrl")
             .searchUrl("updatedUrl")
@@ -73,7 +93,7 @@ class CommunityApiControllerTest {
         //when&then
         webTestClient.put()
             .uri(exchangeResult.getResponseHeaders().getLocation().toASCIIString())
-            .body(Mono.just(requestDto), CommunityUpdateRequestDto.class)
+            .body(Mono.just(updateRequestDto), CommunityUpdateRequestDto.class)
             .exchange()
             .expectStatus().isOk()
             .expectBody()
@@ -86,6 +106,15 @@ class CommunityApiControllerTest {
     @Test
     public void deleteById() {
         //given
+        CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
+            .name("testName4")
+            .baseUrl("testUrl")
+            .searchUrl("testSearchUrl")
+            .keyword("testKeyword")
+            .cssQuery("testCssQuery")
+            .attributeKey("testAttributeKey")
+            .build();
+
         EntityExchangeResult<byte[]> exchangeResult = save(requestDto)
             .expectHeader().valueMatches("Location", CommunityApiController.V1_COMMUNITY + "/\\d*")
             .expectBody().returnResult();

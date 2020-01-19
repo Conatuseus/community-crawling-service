@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,20 +17,15 @@ class CommunityRepositoryTest {
     @Autowired
     private CommunityRepository communityRepository;
 
-    @AfterEach
-    public void cleanUp() {
-        communityRepository.deleteAll();
-    }
-
     @Test
     public void save() {
         //given
-        String name = "okky";
-        String baseUrl = "https://okky.kr";
-        String searchUrl = "https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc";
-        String keyword = "성남";
-        String cssQuery = "h5.list-group-item-heading.list-group-item-evaluate > a";
-        String attributeKey = "href";
+        String name = "testName11";
+        String baseUrl = "testBaseUrl";
+        String searchUrl = "testSearchUrl";
+        String keyword = "testKeyword";
+        String cssQuery = "testCssQuery";
+        String attributeKey = "testAttributeKey";
 
         Community community = Community.builder()
             .name(name)
@@ -41,25 +37,25 @@ class CommunityRepositoryTest {
             .build();
 
         //when
-        communityRepository.save(community);
-        List<Community> communities = communityRepository.findAll();
+        Community savedCommunity = communityRepository.save(community);
+        Optional<Community> foundCommunity= communityRepository.findById(savedCommunity.getId());
 
         //then
-        Community savedCommunity = communities.get(0);
-        assertThat(savedCommunity.getName()).isEqualTo(name);
-        assertThat(savedCommunity.getSearchUrl()).isEqualTo(searchUrl);
-        assertThat(savedCommunity.getKeyword()).isEqualTo(keyword);
+        assertThat(foundCommunity).isNotEmpty();
+        assertThat(foundCommunity.get().getName()).isEqualTo(name);
+        assertThat(foundCommunity.get().getSearchUrl()).isEqualTo(searchUrl);
+        assertThat(foundCommunity.get().getKeyword()).isEqualTo(keyword);
     }
 
     @Test
     public void findById() {
         //given
-        String name = "okky";
-        String baseUrl = "https://okky.kr";
-        String searchUrl = "https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc";
-        String keyword = "성남";
-        String cssQuery = "h5.list-group-item-heading.list-group-item-evaluate > a";
-        String attributeKey = "href";
+        String name = "testName22";
+        String baseUrl = "testBaseUrl";
+        String searchUrl = "testSearchUrl";
+        String keyword = "testKeyword";
+        String cssQuery = "testCssQuery";
+        String attributeKey = "testAttributeKey";
 
         Community community = communityRepository.save(Community.builder()
             .name(name)
@@ -84,12 +80,12 @@ class CommunityRepositoryTest {
     @Test
     public void update() {
         //given
-        String name = "okky";
-        String baseUrl = "https://okky.kr";
-        String searchUrl = "https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc";
-        String keyword = "성남";
-        String cssQuery = "h5.list-group-item-heading.list-group-item-evaluate > a";
-        String attributeKey = "href";
+        String name = "testName33";
+        String baseUrl = "testBaseUrl";
+        String searchUrl = "testSearchUrl";
+        String keyword = "testKeyword";
+        String cssQuery = "testCssQuery";
+        String attributeKey = "testAttributeKey";
 
         Community community = communityRepository.save(Community.builder()
             .name(name)
@@ -120,12 +116,12 @@ class CommunityRepositoryTest {
     @Test
     public void delete() {
         //given
-        String name = "okky";
-        String baseUrl = "https://okky.kr";
-        String searchUrl = "https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc";
-        String keyword = "성남";
-        String cssQuery = "h5.list-group-item-heading.list-group-item-evaluate > a";
-        String attributeKey = "href";
+        String name = "testName44";
+        String baseUrl = "testBaseUrl";
+        String searchUrl = "testSearchUrl";
+        String keyword = "testKeyword";
+        String cssQuery = "testCssQuery";
+        String attributeKey = "testAttributeKey";
 
         Community community = communityRepository.save(Community.builder()
             .name(name)

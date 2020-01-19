@@ -1,5 +1,7 @@
 package com.conatuseus.communityservice.domain.posts.service;
 
+import com.conatuseus.communityservice.domain.community.domain.Community;
+import com.conatuseus.communityservice.domain.community.service.CommunityService;
 import com.conatuseus.communityservice.domain.posts.domain.Posts;
 import com.conatuseus.communityservice.domain.posts.domain.PostsRepository;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsResponse;
@@ -25,19 +27,42 @@ class PostsServiceTest {
     @MockBean
     private PostsRepository postsRepository;
 
+    @MockBean
+    private CommunityService communityService;
+
+    private Community community;
+
     @BeforeEach
     void setup() {
-        postsService = new PostsService(postsRepository);
+        postsService = new PostsService(communityService, postsRepository);
+        community = Community.builder()
+            .name("OKKY")
+            .baseUrl("https://okky.kr")
+            .attributeKey("attributeKey")
+            .cssQuery("cssQuery")
+            .keyword("keyword")
+            .searchUrl("searchUrl")
+            .build();
     }
 
     @Test
     void create_posts() {
         //given
-        PostsSaveRequestDto requestDto = new PostsSaveRequestDto("testTitle", "testLink", "okky", "성남");
-        given(postsRepository.save(any())).willReturn(new Posts("testTitle", "testLink", "okky", "성남"));
+        Community community = Community.builder()
+            .name("OKKY")
+            .baseUrl("https://okky.kr")
+            .attributeKey("attributeKey")
+            .cssQuery("cssQuery")
+            .keyword("keyword")
+            .searchUrl("searchUrl")
+            .build();
+
+        PostsSaveRequestDto requestDto = new PostsSaveRequestDto("testTitle", "testLink", "성남");
+        given(communityService.findByName("OKKY")).willReturn(community);
+        given(postsRepository.save(any())).willReturn(new Posts("testTitle", "testLink", community, "성남"));
 
         //when
-        PostsResponse response = postsService.save(requestDto);
+        PostsResponse response = postsService.save("OKKY", requestDto);
 
         //then
         assertThat(response).isNotNull();
@@ -51,7 +76,7 @@ class PostsServiceTest {
         Posts expected = Posts.builder()
             .title("testTitle")
             .link("testLink")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build();
         given(postsRepository.findById(anyLong())).willReturn(ofNullable(expected));
@@ -71,7 +96,7 @@ class PostsServiceTest {
         Posts posts = Posts.builder()
             .title("testTitle")
             .link("testLink")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build();
 
@@ -94,7 +119,7 @@ class PostsServiceTest {
         Posts deletePosts = Posts.builder()
             .title("testTitle")
             .link("testLink")
-            .community("okky")
+            .community(community)
             .keyword("성남")
             .build();
         given(postsRepository.findById(anyLong())).willReturn(ofNullable(deletePosts));

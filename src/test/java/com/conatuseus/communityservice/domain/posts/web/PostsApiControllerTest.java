@@ -1,5 +1,6 @@
 package com.conatuseus.communityservice.domain.posts.web;
 
+import com.conatuseus.communityservice.domain.community.service.CommunityService;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsSaveRequestDto;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsUpdateRequestDto;
 import org.junit.jupiter.api.Test;
@@ -15,15 +16,18 @@ import reactor.core.publisher.Mono;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PostsApiControllerTest {
 
+    private static final String baseUrl = "/api/v1/posts";
+
     @Autowired
     private WebTestClient webTestClient;
 
-    private String baseUrl = "/api/v1/posts";
+    @Autowired
+    private CommunityService communityService;
 
     @Test
     void createPosts() {
         //given
-        PostsSaveRequestDto requestDto = new PostsSaveRequestDto("title", "link", "okky", "성남");
+        PostsSaveRequestDto requestDto = new PostsSaveRequestDto("title", "link", "성남");
 
         //when&then
         save(requestDto)
@@ -33,7 +37,7 @@ public class PostsApiControllerTest {
     @Test
     void findById() {
         //given
-        PostsSaveRequestDto requestDto = new PostsSaveRequestDto("title", "link", "okky", "성남");
+        PostsSaveRequestDto requestDto = new PostsSaveRequestDto("title", "link", "성남");
         EntityExchangeResult<byte[]> entityExchangeResult = save(requestDto)
             .expectHeader().valueMatches("Location", PostsApiController.V1_POSTS + "/\\d*")
             .expectBody().returnResult();
@@ -45,14 +49,13 @@ public class PostsApiControllerTest {
             .expectBody()
             .jsonPath("$.id").isNotEmpty()
             .jsonPath("$.title").isEqualTo(requestDto.getTitle())
-            .jsonPath("$.link").isEqualTo(requestDto.getLink())
-            .jsonPath("$.community").isEqualTo(requestDto.getCommunity());
+            .jsonPath("$.link").isEqualTo(requestDto.getLink());
     }
 
     @Test
     void update() {
         //given
-        PostsSaveRequestDto saveRequestDto = new PostsSaveRequestDto("title", "link", "okky", "성남");
+        PostsSaveRequestDto saveRequestDto = new PostsSaveRequestDto("title", "link", "성남");
         EntityExchangeResult<byte[]> entityExchangeResult = save(saveRequestDto)
             .expectHeader().valueMatches("Location", PostsApiController.V1_POSTS + "/\\d*")
             .expectBody().returnResult();
@@ -74,7 +77,7 @@ public class PostsApiControllerTest {
     @Test
     void deleteById() {
         //given
-        PostsSaveRequestDto saveRequestDto = new PostsSaveRequestDto("title", "link", "okky", "성남");
+        PostsSaveRequestDto saveRequestDto = new PostsSaveRequestDto("title", "link", "성남");
         EntityExchangeResult<byte[]> entityExchangeResult = save(saveRequestDto)
             .expectHeader().valueMatches("Location", PostsApiController.V1_POSTS + "/\\d*")
             .expectBody().returnResult();
@@ -88,7 +91,7 @@ public class PostsApiControllerTest {
 
     private WebTestClient.ResponseSpec save(final PostsSaveRequestDto requestDto) {
         return webTestClient.post()
-            .uri(baseUrl)
+            .uri(baseUrl + "/OKKY")
             .body(Mono.just(requestDto), PostsSaveRequestDto.class)
             .exchange();
     }

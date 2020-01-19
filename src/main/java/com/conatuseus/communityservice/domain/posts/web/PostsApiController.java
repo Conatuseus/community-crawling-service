@@ -27,10 +27,9 @@ public class PostsApiController {
     public static final String V1_POSTS = "/api/v1/posts";
     private final PostsService postsService;
 
-    @PostMapping
-    public ResponseEntity save(@RequestBody final PostsSaveRequestDto requestDto) {
-        PostsResponse response = postsService.save(requestDto);
-
+    @PostMapping("/{community}")
+    public ResponseEntity save(@PathVariable final String community, @RequestBody final PostsSaveRequestDto requestDto) {
+        PostsResponse response = postsService.save(community, requestDto);
         return ResponseEntity.created(URI.create(V1_POSTS + "/" + response.getId()))
             .build();
     }
