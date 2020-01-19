@@ -8,6 +8,7 @@ public class CommunityResponse {
 
     private final Long id;
     private final String name;
+    private final String baseUrl;
     private final String searchUrl;
     private final String keyword;
     private final String cssQuery;
@@ -16,6 +17,7 @@ public class CommunityResponse {
     public CommunityResponse(final Community community) {
         this.id = community.getId();
         this.name = community.getName();
+        this.baseUrl = community.getBaseUrl();
         this.searchUrl = community.getSearchUrl();
         this.keyword = community.getKeyword();
         this.cssQuery = community.getCssQuery();

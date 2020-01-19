@@ -20,6 +20,7 @@ class CommunityApiControllerTest {
     private String baseUrl = "/api/v1/communities";
     private CommunitySaveRequestDto requestDto = CommunitySaveRequestDto.builder()
         .name("okky")
+        .baseUrl("https://okky.kr")
         .searchUrl("https://okky.kr/articles/gathering?query=%EC%84%B1%EB%82%A8&sort=id&order=desc")
         .keyword("성남")
         .cssQuery("h5.list-group-item-heading.list-group-item-evaluate > a")
@@ -62,6 +63,7 @@ class CommunityApiControllerTest {
 
         CommunityUpdateRequestDto requestDto = CommunityUpdateRequestDto.builder()
             .name("updatedName")
+            .baseUrl("updatedBaseUrl")
             .searchUrl("updatedUrl")
             .keyword("updatedKeyword")
             .cssQuery("updatedCssQuery")
