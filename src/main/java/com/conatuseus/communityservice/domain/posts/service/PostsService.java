@@ -1,5 +1,7 @@
 package com.conatuseus.communityservice.domain.posts.service;
 
+import com.conatuseus.communityservice.domain.community.domain.Community;
+import com.conatuseus.communityservice.domain.community.service.CommunityService;
 import com.conatuseus.communityservice.domain.posts.domain.Posts;
 import com.conatuseus.communityservice.domain.posts.domain.PostsRepository;
 import com.conatuseus.communityservice.domain.posts.service.dto.PostsResponse;
@@ -14,10 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PostsService {
 
+    private final CommunityService communityService;
     private final PostsRepository postsRepository;
 
-    public PostsResponse save(final PostsSaveRequestDto requestDto) {
-        Posts posts = postsRepository.save(requestDto.toEntity());
+    public PostsResponse save(final String communityName, final PostsSaveRequestDto requestDto) {
+        Community community = communityService.findByName(communityName);
+        Posts posts = postsRepository.save(requestDto.toEntity(community));
         return new PostsResponse(posts);
     }
 

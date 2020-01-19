@@ -1,6 +1,7 @@
 package com.conatuseus.communityservice.domain.posts.service.dto;
 
 
+import com.conatuseus.communityservice.domain.community.domain.Community;
 import com.conatuseus.communityservice.domain.posts.domain.Posts;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ public class PostsResponse {
     private final Long id;
     private final String title;
     private final String link;
-    private final String community;
+    private final Community community;
     private final String keyword;
 
     public PostsResponse(Posts posts) {
