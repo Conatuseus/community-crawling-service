@@ -46,8 +46,8 @@ public class CrawlerService {
             if (postsService.existsByLink(link)) {
                 break;
             }
-            PostsSaveRequestDto requestDto = new PostsSaveRequestDto(title, link, community.getName(), community.getKeyword());
-            postsService.save(requestDto);
+            PostsSaveRequestDto requestDto = new PostsSaveRequestDto(title, link, community.getKeyword());
+            postsService.save(community.getName(), requestDto);
         }
     }
 }
