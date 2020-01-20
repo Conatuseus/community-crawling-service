@@ -58,7 +58,7 @@ class PostsServiceTest {
             .build();
 
         PostsSaveRequestDto requestDto = new PostsSaveRequestDto("testTitle", "testLink", "성남");
-        given(communityService.findByName("OKKY")).willReturn(community);
+        given(communityService.findByNameAndKeyword("OKKY","keyword")).willReturn(community);
         given(postsRepository.save(any())).willReturn(new Posts("testTitle", "testLink", community, "성남"));
 
         //when
