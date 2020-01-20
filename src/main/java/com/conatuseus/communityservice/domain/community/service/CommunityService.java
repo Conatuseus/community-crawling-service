@@ -53,7 +53,8 @@ public class CommunityService {
         return communityRepository.findAll();
     }
 
-    public Community findByName(final String name, final String keyword) {
+    @Transactional(readOnly = true)
+    public Community findByNameAndKeyword(final String name, final String keyword) {
         return communityRepository.findByNameAndKeyword(name.toUpperCase(), keyword)
             .orElseThrow(() -> new CommunityNotFoundByName(name,keyword));
     }

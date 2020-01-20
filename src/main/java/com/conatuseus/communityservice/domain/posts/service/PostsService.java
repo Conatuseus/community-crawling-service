@@ -23,7 +23,7 @@ public class PostsService {
     private final PostsRepository postsRepository;
 
     public PostsResponse save(final String communityName, final PostsSaveRequestDto requestDto) {
-        Community community = communityService.findByName(communityName, requestDto.getKeyword());
+        Community community = communityService.findByNameAndKeyword(communityName, requestDto.getKeyword());
         Posts posts = postsRepository.save(requestDto.toEntity(community));
         return new PostsResponse(posts);
     }
@@ -57,7 +57,7 @@ public class PostsService {
 
     @Transactional(readOnly = true)
     public List<PostsResponse> findByCommunityNameAndKeyword(final String communityName, final String keyword) {
-        Community community = communityService.findByName(communityName, keyword);
+        Community community = communityService.findByNameAndKeyword(communityName, keyword);
         return postsRepository.findByCommunityAndKeywordOrderByModifiedDate(community, keyword).stream()
             .map(PostsResponse::new)
             .collect(Collectors.toList());
