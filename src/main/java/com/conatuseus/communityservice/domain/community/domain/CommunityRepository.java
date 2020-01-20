@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface CommunityRepository extends JpaRepository<Community, Long> {
 
-    Optional<Community> findByName(final String name);
+    Optional<Community> findByNameAndKeyword(final String name, final String keyword);
 }

@@ -53,8 +53,8 @@ public class CommunityService {
         return communityRepository.findAll();
     }
 
-    public Community findByName(final String name) {
-        return communityRepository.findByName(name)
-            .orElseThrow(() -> new CommunityNotFoundByName(name));
+    public Community findByName(final String name, final String keyword) {
+        return communityRepository.findByNameAndKeyword(name.toUpperCase(), keyword)
+            .orElseThrow(() -> new CommunityNotFoundByName(name,keyword));
     }
 }
