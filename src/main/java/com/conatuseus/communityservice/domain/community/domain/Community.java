@@ -22,7 +22,6 @@ public class Community {
     @Column(name = "COMMUNITY_ID")
     private Long id;
 
-    @Column(unique = true)
     private String name;
 
     private String baseUrl;
